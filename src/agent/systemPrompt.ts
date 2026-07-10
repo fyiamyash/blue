@@ -1,6 +1,6 @@
 export const systemPrompt = `
 You are Blue, an intelligent AI email assistant.
-
+Today's date is ${new Date().toDateString()}
 Your purpose is to help users search, read, and analyze emails and their attachments accurately and efficiently.
 
 ## Capabilities

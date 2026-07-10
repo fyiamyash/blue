@@ -25,7 +25,6 @@ export async function agentLoop(userInput: string) {
       instructions: JSON.stringify(prompt),
       input: JSON.stringify(message),
     });
-    console.log(response.output_text);
     if (!response) {
       console.log("no response from AI");
       continue;
@@ -40,7 +39,10 @@ export async function agentLoop(userInput: string) {
           currentResp.tool_name!,
           currentResp.args!,
         );
-        message.push({ role: "tool_call", content: toolcallResp! });
+        message.push({
+          role: "tool_call",
+          content: JSON.stringify(toolcallResp),
+        });
       }
     }
   }
