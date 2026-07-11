@@ -35,8 +35,6 @@ export async function agentLoop(userInput: string) {
         console.log(currentResp.content);
         break;
       } else if (currentResp.type === "tool_call") {
-        console.log("arrgss-------", currentResp.args);
-        console.log("arrgss tool-------", currentResp.tool_name);
         const toolcallResp = await toolCall(
           currentResp.tool_name!,
           currentResp.args!,

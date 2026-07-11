@@ -1,12 +1,37 @@
 import { getGmailClient } from "../gmail/client";
+import { PDFParse } from "pdf-parse";
+export function findAttachments(
+  payload: any,
+): { filename: string; mimeType: string; attachmentId: string }[] {
+  const result: any[] = [];
+  function checkNested(pay: any) {
+    if (pay.body.attachmentId) {
+      result.push({
+        filename: pay.filename,
+        mimeType: pay.mimeType,
+        attachmentId: pay.body.attachmentId,
+      });
 
-export async function readEmail(args: any) {
+      if (pay.parts) pay.parts.forEach(checkNested);
+    }
+  }
+  checkNested(payload);
+  return result;
+}
+
+enum supported_mime_types {
+  PDF = "application/pdf",
+  DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+}
+
+export async function readEmail(args: { emailId: string }) {
   const gmail = await getGmailClient();
-  console.log("arrgss------->> in side the tool", args);
-  const emailId = args.emailId;
+  // console.log("arrgss------->> in side the tool", args);
+
   const { data } = await gmail.users.messages.get({
     userId: "me",
-    id: emailId,
+    id: args.emailId,
     format: "full",
   });
 
@@ -20,14 +45,41 @@ export async function readEmail(args: any) {
     ? Buffer.from(emailBody, "base64").toString("utf-8")
     : data.snippet;
 
+  const attachedFile = findAttachments(data.payload);
+
   return {
     subject: headers.Subject ?? "(no subject)",
     from: headers.From,
     Date: headers.Date,
     body: body,
+    attachedFile: attachedFile,
   };
 }
 
-export function readAttachment() {
-  console.log(`this read attachment tool funciton is called`);
+export async function readAttachment(args: {
+  emailId: string;
+  fileName?: string;
+  attachmentId: string;
+  mime_Type: supported_mime_types;
+}) {
+  const gmail = await getGmailClient();
+  // here when you call the gmail api for the atchmnt it will give the json obj -> {size:123, data:asdasdadsaf}
+  const { data } = await gmail.users.messages.attachments.get({
+    userId: "me",
+    messageId: args.emailId,
+    id: args.attachmentId,
+  });
+  let text: string;
+  const buffer = Buffer.from(data.data!, "base64");
+
+  if (args.mime_Type === supported_mime_types.PDF) {
+    const parse = new PDFParse({ data: buffer });
+    return (text = (await parse.getText()).text);
+  } else if (args.mime_Type === supported_mime_types.DOCX) {
+    return;
+  } else if (args.mime_Type === supported_mime_types.XLSX) {
+    return;
+  } else {
+    return "Unsupported_mime_Type";
+  }
 }
