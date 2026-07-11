@@ -28,6 +28,7 @@ export async function searchEmail(args: any) {
         from: headers.From,
         date: headers.Date,
         snippet: fullContent.snippet,
+        isUnread: fullContent.labelIds?.includes("UNREAD") ?? false,
       };
     }),
   );

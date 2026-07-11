@@ -35,6 +35,8 @@ export async function agentLoop(userInput: string) {
         console.log(currentResp.content);
         break;
       } else if (currentResp.type === "tool_call") {
+        console.log("arrgss-------", currentResp.args);
+        console.log("arrgss tool-------", currentResp.tool_name);
         const toolcallResp = await toolCall(
           currentResp.tool_name!,
           currentResp.args!,
@@ -43,6 +45,8 @@ export async function agentLoop(userInput: string) {
           role: "tool_call",
           content: JSON.stringify(toolcallResp),
         });
+        // console.log("----------> llm resp", currentResp);
+        // console.log("----------> message holder", message);
       }
     }
   }

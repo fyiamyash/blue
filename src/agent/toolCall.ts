@@ -5,7 +5,7 @@ import type { toolCallType } from "../types/toolCallType";
 
 export async function toolCall(toolName: toolCallType, args: {}) {
   if (toolName === "readEmail") {
-    readEmail();
+    return readEmail(args);
   } else if (toolName === "readAttachment") {
     return readAttachment();
   } else if (toolName === "summarizeEmail") {
