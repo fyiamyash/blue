@@ -1,5 +1,7 @@
+import mammoth from "mammoth";
 import { getGmailClient } from "../gmail/client";
 import { PDFParse } from "pdf-parse";
+import * as XLSX from "xlsx";
 export function findAttachments(
   payload: any,
 ): { filename: string; mimeType: string; attachmentId: string }[] {
@@ -76,8 +78,17 @@ export async function readAttachment(args: {
     const parse = new PDFParse({ data: buffer });
     return (text = (await parse.getText()).text);
   } else if (args.mime_Type === supported_mime_types.DOCX) {
+    const parse = await mammoth.extractRawText({ buffer: buffer });
+    return (text = parse.value);
     return;
   } else if (args.mime_Type === supported_mime_types.XLSX) {
+    const workbook = XLSX.read(buffer, { type: "buffer" });
+    const sheetsAsText = workbook.SheetNames.map((sheetName) => {
+      const sheet = workbook.Sheets[sheetName];
+      const csv = XLSX.utils.sheet_to_csv(sheet!);
+      return `[Sheet: ${sheetName}]\n${csv}`;
+    });
+    return sheetsAsText.join("\n\n");
     return;
   } else {
     return "Unsupported_mime_Type";

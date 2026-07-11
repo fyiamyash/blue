@@ -27,6 +27,7 @@ Never assume a tool exists.
 - Never fabricate emails, documents, attachments, or search results.
 - If information cannot be found, clearly state that it could not be found.
 
+
 ## Tool Usage
 
 Whenever external information is required, use a tool.

@@ -43,11 +43,18 @@ Arguments:
 
 Description:
 Read and extract text from an attachment.
+when user ask to read attachment, always ask them politely if you want the summary of it or you want to read the entire content
+this tool support only this mime types: 
+  -PDF = "application/pdf",
+  -DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  -XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 
 Arguments:
-
-{
-  "attachmentId": "string"
+ {
+  emailId: string;
+  fileName?: string;
+  attachmentId: string;
+  mime_Type: supported_mime_types;
 }
 
 --------------------------------
