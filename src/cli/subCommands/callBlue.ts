@@ -3,6 +3,9 @@ import { envCustom } from "../../envCustom";
 import { chatFunction } from "./chat";
 import { oAuthLogin } from "../../gmail/login";
 import fs from "fs/promises";
+import { render } from "ink";
+import React from "react";
+import App from "../../tui/App";
 
 export const callBlueCommand = new Command("blue");
 
@@ -21,5 +24,6 @@ callBlueCommand.description("ask me anything about emails").action(async () => {
     tokens = JSON.parse(data);
   }
   console.log(`blue > hello ${username} how can i help you today?`);
-  await chatFunction();
+  // await chatFunction();
+  render(React.createElement(App));
 });

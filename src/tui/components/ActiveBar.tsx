@@ -9,9 +9,5 @@ export function ActiveBar({
   width?: number;
 }) {
   const padded = ` ${text} `.padEnd(width);
-  return (
-    <Text color={theme.bright} backgroundColor={theme.activeBg}>
-      {padded}
-    </Text>
-  );
+  return <Text color={theme.bright}>{padded}</Text>;
 }

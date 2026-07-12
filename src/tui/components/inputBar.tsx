@@ -22,10 +22,14 @@ export function Inputbar({ onSubmit }: { onSubmit: (value: string) => void }) {
     setValue((v) => v + input);
   });
   return (
-    <Box>
-      <Text color={theme.blue}>{"> "}</Text>
-      <Text color={theme.bright}>{value}</Text>
-      <Cursor />
+    <Box flexDirection="column" paddingLeft={1}>
+      <Text bold color={theme.blue}>
+        You
+      </Text>
+      <Box>
+        <Text color={theme.bright}>{value}</Text>
+        <Cursor />
+      </Box>
     </Box>
   );
 }

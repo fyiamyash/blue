@@ -32,8 +32,9 @@ export async function agentLoop(userInput: string) {
     if (response && response.output_text) {
       const currentResp: responseFromAI = JSON.parse(response.output_text);
       if (currentResp.type === "message") {
-        console.log(currentResp.content);
-        break;
+        // console.log(currentResp.content);
+        return currentResp.content;
+        // break;
       } else if (currentResp.type === "tool_call") {
         const toolcallResp = await toolCall(
           currentResp.tool_name!,

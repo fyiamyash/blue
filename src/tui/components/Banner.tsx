@@ -1,22 +1,39 @@
+// import { Box, Text } from "ink";
+// import { theme } from "../theme";
+
+// export function Banner() {
+//   return (
+//     <Box flexDirection="column">
+//       <Box>
+//         <Text bold color={theme.blue}>
+//           Blue
+//         </Text>
+//         <Text color={theme.dim}> · Your emails, quietly handled</Text>
+//       </Box>
+//       <Box
+//         borderStyle="single"
+//         borderColor={theme.faint}
+//         borderTop={false}
+//         borderLeft={false}
+//         borderRight={false}
+//       />
+//     </Box>
+//   );
+// }
+
 import { Box, Text } from "ink";
 import { theme } from "../theme";
 
-export function Banner() {
+export function Banner({ width }: { width: number }) {
   return (
-    <Box flexDirection="column">
+    <Box flexDirection="column" marginTop={1} marginBottom={1} paddingLeft={1}>
       <Box>
         <Text bold color={theme.blue}>
           Blue
         </Text>
-        <Text color={theme.dim}> · Your emails, quietly handled</Text>
+        <Text color={theme.dim}> · your emails, quietly handled</Text>
       </Box>
-      <Box
-        borderStyle="single"
-        borderColor={theme.faint}
-        borderTop={false}
-        borderLeft={false}
-        borderRight={false}
-      />
+      <Text color={theme.faint}>{"─".repeat(width)}</Text>
     </Box>
   );
 }

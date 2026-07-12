@@ -19,6 +19,7 @@ export async function chatFunction() {
       rl.close();
       break;
     }
-    await agentLoop(userInput);
+    const reply = await agentLoop(userInput);
+    console.log(reply);
   }
 }
