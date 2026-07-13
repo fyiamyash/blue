@@ -8,7 +8,7 @@ import { toolCall } from "./toolCall";
 // const ai = new GoogleGenAI({ apiKey: envCustom.GEMINI_API_KEY });
 const client = new OpenAI({ apiKey: envCustom.OPENAI_API_KEY });
 
-export async function agentLoop(userInput: string) {
+export async function agentLoop(userInput: string, history: messageType[]) {
   const message: messageType[] = [];
   // message.push({
   //   role: "system",
@@ -33,6 +33,7 @@ export async function agentLoop(userInput: string) {
       const currentResp: responseFromAI = JSON.parse(response.output_text);
       if (currentResp.type === "message") {
         // console.log(currentResp.content);
+
         return currentResp.content;
         // break;
       } else if (currentResp.type === "tool_call") {
