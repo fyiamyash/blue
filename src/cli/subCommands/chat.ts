@@ -2,6 +2,7 @@ import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import { envCustom } from "../../envCustom";
 import { agentLoop } from "../../agent/agentLoop";
+import type { messageType } from "../../types/messageType";
 
 const username = envCustom.username;
 export async function chatFunction() {
@@ -9,6 +10,7 @@ export async function chatFunction() {
     input: stdin,
     output: stdout,
   });
+  let history: messageType[] = [];
   while (true) {
     const userInput = await rl.question(`${username} >`);
 
@@ -19,7 +21,7 @@ export async function chatFunction() {
       rl.close();
       break;
     }
-    const reply = await agentLoop(userInput);
+    const reply = await agentLoop(userInput, history);
     console.log(reply);
   }
 }

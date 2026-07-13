@@ -9,7 +9,11 @@ import { toolCall } from "./toolCall";
 const client = new OpenAI({ apiKey: envCustom.OPENAI_API_KEY });
 
 export async function agentLoop(userInput: string, history: messageType[]) {
-  const message: messageType[] = [];
+  // const message: messageType[] = [];
+  const message: messageType[] = [
+    ...history,
+    { role: "user", content: userInput },
+  ];
   // message.push({
   //   role: "system",
   //   content: prompt,
@@ -34,19 +38,28 @@ export async function agentLoop(userInput: string, history: messageType[]) {
       if (currentResp.type === "message") {
         // console.log(currentResp.content);
 
-        return currentResp.content;
+        // return currentResp.content;
+        message.push({ role: "system", content: JSON.stringify(currentResp) });
+        return { content: currentResp.content, history: message };
         // break;
       } else if (currentResp.type === "tool_call") {
+        // const toolcallResp = await toolCall(
+        //   currentResp.tool_name!,
+        //   currentResp.args!,
+        // );
+        // message.push({
+        //   role: "tool_call",
+        //   content: JSON.stringify(toolcallResp),
+        // });
         const toolcallResp = await toolCall(
           currentResp.tool_name!,
           currentResp.args!,
         );
+        message.push({ role: "system", content: JSON.stringify(currentResp) });
         message.push({
           role: "tool_call",
           content: JSON.stringify(toolcallResp),
         });
-        // console.log("----------> llm resp", currentResp);
-        // console.log("----------> message holder", message);
       }
     }
   }

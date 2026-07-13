@@ -85,7 +85,7 @@
 //   );
 // }
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Box, Static, Text, useStdout } from "ink";
 import { Banner } from "./components/Banner";
 
@@ -93,8 +93,9 @@ import { theme } from "./theme";
 import { agentLoop } from "../agent/agentLoop";
 import { Inputbar } from "./components/inputBar";
 import { ThinkingDots } from "./components/ThinkingDots";
-import type { MessageContent } from "../types/toolCallType"; // <-- your own type, not openai's
+import type { MessageContent } from "../types/toolCallType";
 import { EmailListView } from "./components/EmailListView";
+import type { messageType } from "../types/messageType";
 
 type StaticItem =
   | { kind: "banner"; id: "banner" }
@@ -105,7 +106,7 @@ export default function App() {
   const { stdout } = useStdout();
   const width = stdout?.columns ?? 60;
   const dividerWidth = Math.min(width, 160);
-
+  const messageHistoryRef = useRef<messageType[]>([]);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [log, setLog] = useState<StaticItem[]>([
@@ -118,17 +119,20 @@ export default function App() {
     setBusy(true);
     setStatus("thinking...");
 
-    const reply: MessageContent = (await agentLoop(value)) ?? {
+    const { content, history } = (await agentLoop(
+      value,
+      messageHistoryRef.current,
+    )) ?? {
       content_type: "summary",
       value: "Sorry, I didn't get a response.",
     };
-
+    messageHistoryRef.current = history;
     setBusy(false);
     setStatus("");
 
     setLog((p) => [
       ...p,
-      { kind: "agent", id: Date.now() + 1, content: reply },
+      { kind: "agent", id: Date.now() + 1, content: content },
     ]);
   }
 
