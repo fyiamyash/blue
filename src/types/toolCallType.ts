@@ -1,4 +1,4 @@
-export type toolCallType = "readEmail" | "summarizeEmail" | "readAttachment";
+export type toolCallType = "readEmail" | "readAttachment";
 
 type responseBodyType = "tool_call" | "message";
 

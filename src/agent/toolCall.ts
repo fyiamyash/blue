@@ -13,8 +13,6 @@ export async function toolCall(toolName: toolCallType, args: any) {
       attachmentId: args.attachmentId,
       mime_Type: args.mime_Type,
     });
-  } else if (toolName === "summarizeEmail") {
-    return summarizeEmail();
   } else if (toolName === "searchEmail") {
     return searchEmail(args);
   } else {

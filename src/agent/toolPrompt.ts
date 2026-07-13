@@ -30,6 +30,7 @@ Arguments:
 
 Description:
 Read a specific email.
+if user wants the summary of specific email first read the email and then summarise it for the user.
 
 Arguments:
 
@@ -59,14 +60,4 @@ Arguments:
 
 --------------------------------
 
-4. summarizeEmail
-
-Description:
-Generate a summary of an email.
-
-Arguments:
-
-{
-  "emailId": "string"
-}
 `;

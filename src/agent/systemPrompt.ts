@@ -94,9 +94,21 @@ The last character of your response must be '}'.
 
 If no tool is required:
 
+-If responding with a plain text answer:
 {
   "type": "message",
-  "content": "Your response."
+  "content": { "content_type": "summary", "value": "your answer here" }
+}
+
+-If responding with a list of emails:
+{
+  "type": "message",
+  "content": {
+    "content_type": "email",
+    "value": [
+      { "id": 1, "sender": "yash", "subject": "...", "date": "Fri, 10 Jul 2026", "unread": true }
+    ]
+  }
 }
 
 ## Tool Call
