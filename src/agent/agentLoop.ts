@@ -28,6 +28,7 @@ export async function agentLoop(userInput: string, history: messageType[]) {
       model: "gpt-5.5",
       instructions: JSON.stringify(prompt),
       input: JSON.stringify(message),
+      // stream: true,
     });
     if (!response) {
       console.log("no response from AI");

@@ -91,11 +91,12 @@ import { Banner } from "./components/Banner";
 
 import { theme } from "./theme";
 import { agentLoop } from "../agent/agentLoop";
-import { Inputbar } from "./components/inputBar";
+
 import { ThinkingDots } from "./components/ThinkingDots";
 import type { MessageContent } from "../types/toolCallType";
 import { EmailListView } from "./components/EmailListView";
 import type { messageType } from "../types/messageType";
+import { Inputbar } from "./components/InputBar";
 
 type StaticItem =
   | { kind: "banner"; id: "banner" }

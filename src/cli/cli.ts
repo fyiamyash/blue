@@ -6,4 +6,4 @@ export const program = new Command();
 program
   .name("Blue")
   .description("Blue: Your email agent! ask me any thing about yout inbox")
-  .addCommand(callBlueCommand);
+  .addCommand(callBlueCommand, { isDefault: true });
