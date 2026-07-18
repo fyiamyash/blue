@@ -53,7 +53,7 @@ Blue brings AI directly into your terminal, allowing you to:
 
 ## Demo
 
-<!-- Failed to upload "Screen Recording 2026-07-18 at 8.21.35 PM.mov" -->
+https://github.com/user-attachments/assets/03bbb702-60bc-4843-806e-d224685ba1a5
 
 ## Tech Stack
 
