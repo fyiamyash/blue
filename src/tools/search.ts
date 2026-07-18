@@ -5,6 +5,7 @@ export async function searchEmail(args: any) {
     userId: "me",
     q: args.query,
     maxResults: 20,
+    labelIds: ["INBOX"],
   });
   if (!data.messages?.length) {
     return "No emails found matching that query.";

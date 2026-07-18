@@ -2,21 +2,42 @@ import mammoth from "mammoth";
 import { getGmailClient } from "../gmail/client";
 import { PDFParse } from "pdf-parse";
 import * as XLSX from "xlsx";
+// export function findAttachments(
+//   payload: any,
+// ): { filename: string; mimeType: string; attachmentId: string }[] {
+//   const result: any[] = [];
+//   function checkNested(pay: any) {
+//     if (pay.body.attachmentId) {
+//       result.push({
+//         filename: pay.filename,
+//         mimeType: pay.mimeType,
+//         attachmentId: pay.body.attachmentId,
+//       });
+
+//       if (pay.parts) pay.parts.forEach(checkNested);
+//     }
+//   }
+//   checkNested(payload);
+//   return result;
+// }
 export function findAttachments(
   payload: any,
 ): { filename: string; mimeType: string; attachmentId: string }[] {
   const result: any[] = [];
+
   function checkNested(pay: any) {
-    if (pay.body.attachmentId) {
+    if (pay?.body?.attachmentId && pay.filename) {
       result.push({
         filename: pay.filename,
         mimeType: pay.mimeType,
         attachmentId: pay.body.attachmentId,
       });
-
-      if (pay.parts) pay.parts.forEach(checkNested);
+    }
+    if (pay?.parts) {
+      pay.parts.forEach(checkNested);
     }
   }
+
   checkNested(payload);
   return result;
 }

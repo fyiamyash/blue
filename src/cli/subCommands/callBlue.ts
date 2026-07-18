@@ -17,13 +17,16 @@ callBlueCommand.description("ask me anything about emails").action(async () => {
     const data = await fs.readFile("./creds.json", "utf-8");
     tokens = JSON.parse(data);
   } catch {
-    // await oAuthLogin();
+    await oAuthLogin();
     console.log("call auth function");
 
     const data = await fs.readFile("./creds.json", "utf8");
+    if (!data) {
+      console.log("there is no creds file here redirect to login!");
+    }
     tokens = JSON.parse(data);
   }
-  console.log(`blue > hello ${username} how can i help you today?`);
+
   // await chatFunction();
   render(React.createElement(App));
 });
